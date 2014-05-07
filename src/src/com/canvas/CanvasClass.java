@@ -5,46 +5,25 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import com.canvas.Canvas1.ProgressdialogClass;
-
-import android.R.color;
-import android.R.style;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Point;
 import android.graphics.PointF;
-import android.graphics.PorterDuff;
-import android.graphics.Rect;
 import android.os.CountDownTimer;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.WindowManager;
-
 import android.view.View;
 import android.view.View.OnTouchListener;
 
 public class CanvasClass extends View implements OnTouchListener{
 	private LipiTKJNIInterface _lipitkInterface;
 	private LipiTKJNIInterface _recognizer;
-	private Page _page;
-	private PointF _lastSpot;
 	public Stroke _currentStroke;
 	private ArrayList<PointF> _currentStrokeStore;
 	private ArrayList<Stroke> _strokes;
 	private Stroke[] _recognitionStrokes;
-	private ArrayList<Symbol> _symbols;
 	public static String[] character;
 	public static int StrokeResultCount=0;
 	
@@ -54,10 +33,6 @@ public class CanvasClass extends View implements OnTouchListener{
 	public static int minX=800;
 	public static int maxX=0; 
 	public static int XCood=0; 
-	private int mPosX;
-	private int mPosY;
-	private  int mLastTouchX=0;
-	private int mLastTouchY=0;
 	boolean flag=true;
 	boolean flagbs=true;
 	public static boolean canvastest=true;
@@ -65,7 +40,7 @@ public class CanvasClass extends View implements OnTouchListener{
 	MyLongPressCount myLongPress;
 	BufferedWriter out;
 	Canvas1 canObj=null;
-	private static final String TAG = "DrawView";
+	//private static final String TAG = "DrawView";
 	public CanvasClass(Context context,Canvas1 canObjParam) {
 		super(context);
 		canObj=canObjParam;
@@ -85,7 +60,7 @@ public class CanvasClass extends View implements OnTouchListener{
 		_currentStroke = new Stroke();
 		_strokes = new ArrayList<Stroke>();
 		_recognizer = null;
-		_symbols = new ArrayList<Symbol>();
+		//_symbols = new ArrayList<Symbol>();
 		// Initialize lipitk
 		Context contextlipi = getContext();
 		File externalFileDir = contextlipi.getExternalFilesDir(null);
@@ -94,7 +69,7 @@ public class CanvasClass extends View implements OnTouchListener{
 		_lipitkInterface = new LipiTKJNIInterface(path, "SHAPEREC_ALPHANUM");
 		_lipitkInterface.initialize();
 
-		_page = new Page(_lipitkInterface);
+		//_page = new Page(_lipitkInterface);
 		_recognizer=_lipitkInterface;
 	}
 	public boolean onTouch(View view, MotionEvent event) {
@@ -116,7 +91,6 @@ public class CanvasClass extends View implements OnTouchListener{
 			float  X= (float) vs.x;
 			float  Y= (float) vs.y;
 			PointF p = new PointF(X, Y);
-			_lastSpot=p;
 			
 			_currentStroke.addPoint(p);
 
@@ -145,7 +119,6 @@ public class CanvasClass extends View implements OnTouchListener{
 			float  X= (float) vs.x;
 			float  Y= (float) vs.y;
 			PointF p = new PointF(X, Y);
-			_lastSpot=p;
 			_currentStroke.addPoint(p);
 			
 			//myLongPress.cancel();
@@ -176,7 +149,6 @@ public class CanvasClass extends View implements OnTouchListener{
 			float  X= (float) vs.x;
 			float  Y= (float) vs.y;
 			PointF p = new PointF(X, Y);
-			_lastSpot=p;
 			_currentStroke.addPoint(p);
 			_currentStrokeStore = new ArrayList<PointF>();
 			_currentStrokeStore.add(p);
@@ -213,7 +185,7 @@ public class CanvasClass extends View implements OnTouchListener{
 				{
 					//canObj.backspace();
 				}
-				else if(XCood > (canObj.width - 30))
+				else if(XCood > (canObj.winsize.x - 30))
 				{
 					
 					canObj.SpeakOutChoices();
@@ -264,7 +236,6 @@ public class CanvasClass extends View implements OnTouchListener{
 	public static Canvas canvasCpy = null;
 	int canvasWidth = 0;
 	int canvasHeight = 0;
-	private Bitmap bitmap;
 	@Override
 	protected void onDraw(Canvas canvas) {
 		canvasHeight=canvas.getHeight();
@@ -274,8 +245,6 @@ public class CanvasClass extends View implements OnTouchListener{
 			canvas.save();
 			canvas.drawPoint(values.x, values.y, globalvariable.paint);
 			canvas.restore();
-			mLastTouchX=values.x;
-			mLastTouchY=values.y;
 		}
 		File root = android.os.Environment.getExternalStorageDirectory(); 
 		File file = new File(root, "Freepad/points.txt");

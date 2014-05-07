@@ -1,12 +1,11 @@
 package com.canvas;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.os.Parcelable;
 
 //
 // Stroke

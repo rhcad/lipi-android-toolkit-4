@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-import android.graphics.PointF;
 import android.util.Log;
 
 public class LipiTKJNIInterface {
@@ -51,9 +50,11 @@ public class LipiTKJNIInterface {
 				{
 					splited_line[1] = splited_line[1].substring(2);
 					temp = Integer.parseInt(splited_line[1], 16);
+					readIni.close();
 					return String.valueOf((char)temp);
 				}
 			}
+			readIni.close();
 		}
 		catch(Exception ex)
 		{
