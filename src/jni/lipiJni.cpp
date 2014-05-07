@@ -29,7 +29,10 @@ LTKShapeRecognizer* lipiShapeReco = NULL;
 * Author			Date				Description of change
 *************************************************************************************/
 
-void JNICALL Java_com_canvas_LipiTKJNIInterface_initializeNative(JNIEnv *env, jobject this_object, jstring lipiDirectory, jstring lipiProject)
+void JNICALL Java_com_canvas_LipiTKJNIInterface_initializeNative(JNIEnv *env, 
+																 jobject this_object, 
+																 jstring lipiDirectory,
+																 jstring lipiProject)
 {
 	int result;
 
@@ -76,7 +79,11 @@ void JNICALL Java_com_canvas_LipiTKJNIInterface_initializeNative(JNIEnv *env, jo
 * Author			Date				Description of change
 *************************************************************************************/
 
-jobjectArray JNICALL Java_com_canvas_LipiTKJNIInterface_recognizeNative(JNIEnv *env, jobject this_object, jobjectArray StrokeArray, jint NumStrokes)
+jobjectArray 
+	JNICALL Java_com_canvas_LipiTKJNIInterface_recognizeNative(JNIEnv *env,
+															   jobject this_object,
+															   jobjectArray StrokeArray,
+															   jint NumStrokes)
 {
 	jobjectArray ResultSetArray;
 
@@ -86,11 +93,15 @@ jobjectArray JNICALL Java_com_canvas_LipiTKJNIInterface_recognizeNative(JNIEnv *
 		if(strokeClass == NULL)
 			cout << "strokeClass ID is NULL" << endl;
 
-		jmethodID getNumPointsMethodID = env->GetMethodID(strokeClass, "getNumberOfPoints", "()I");
+		jmethodID getNumPointsMethodID = env->GetMethodID(strokeClass, 
+														  "getNumberOfPoints",
+														  "()I");
 		if(getNumPointsMethodID == NULL)
 			cout << "getNumPointsMethodID ID is NULL" << endl;
 
-		jmethodID getPointsAtMethodID = env->GetMethodID(strokeClass, "getPointAt", "(I)Landroid/graphics/PointF;");
+		jmethodID getPointsAtMethodID = env->GetMethodID(strokeClass, 
+														 "getPointAt",
+														 "(I)Landroid/graphics/PointF;");
 		if(getPointsAtMethodID == NULL)
 			cout << "getPointsAtMethodID ID is NULL" << endl;
 
@@ -161,7 +172,12 @@ jobjectArray JNICALL Java_com_canvas_LipiTKJNIInterface_recognizeNative(JNIEnv *
 
 		if(lipiShapeReco)
 		{
-			int iResult = lipiShapeReco->recognize(oTraceGroup, oScreenContext, outSubSetOfClasses, CONFIDENCE_THRESHOLD, NUMOFCHOICES, oResultSet);
+			int iResult = lipiShapeReco->recognize(oTraceGroup, 
+												   oScreenContext,
+												   outSubSetOfClasses,
+												   CONFIDENCE_THRESHOLD,
+												   NUMOFCHOICES, 
+												   oResultSet);
 		}
 		else 
 		{

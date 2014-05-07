@@ -43,6 +43,7 @@ import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
+
 import com.google.tts.TTS;
 
 public class Canvas1 extends Activity implements OnClickListener,OnLongClickListener{
@@ -89,7 +90,12 @@ public class Canvas1 extends Activity implements OnClickListener,OnLongClickList
 		height = display.getHeight(); 
 
 		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
+		AssetInstaller assetInstaller = new AssetInstaller(getApplicationContext(), "projects");
+		try {
+			assetInstaller.execute();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		conObj = this;
 		canvasClass = new CanvasClass(this,conObj);
 		main = new LinearLayout(this);
